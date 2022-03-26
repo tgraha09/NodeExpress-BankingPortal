@@ -18,35 +18,34 @@ const userData = fs.readFileSync('src/json/users.json', {encoding: 'UTF8'})
 const users = JSON.parse(userData)
 
 app.get('/profile', (req, res)=>{
-    let data = {user: users[0]}
-    res.render('profile', data);
+    res.render('profile', {user: users[0]});
 });
 
 app.get('/credit', (req, res)=>{
-    let data = {account: accounts.credit}
-    res.render('account', data);
+    res.render('account', {account: accounts.credit});
 });
 
 app.get('/checking', (req, res)=>{
-    let data = {account: accounts.checking}
-    res.render('account', data);
+    res.render('account', {account: accounts.checking});
 });
 
 app.get('/savings', (req, res)=>{
-    let data = {account: accounts.savings}
-    res.render('account', data);
+    res.render('account', {account: accounts.savings});
 });
 
 
 app.get('/', (req, res)=>{
-    let data = {title: 'Account Summary',
+    var data = {title: 'Account Summary',
                 accounts: accounts
                 }
-    //console.log(data.accounts);
-    for(let account in accounts){
-        console.log(account);
-    }
-    res.render('index', data);
+   // console.log(data.accounts);
+    Object.keys(accounts).forEach(function(account) { 
+        //console.log(accounts[account]);
+    })
+    
+    res.render('index', {title: 'Account Summary',
+    accounts: accounts
+    });
 });
 
 
