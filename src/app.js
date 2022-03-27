@@ -43,7 +43,7 @@ app.post('/transfer', (req, res)=>{
     //console.log(accounts["checking"].balance);
     //console.log(accounts["savings"].balance);
     res.render('transfer', {message: "Transfer Completed"})
-});
+}); 
 
 app.get('/payment', (req, res)=>{
     
