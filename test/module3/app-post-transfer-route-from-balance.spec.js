@@ -23,7 +23,6 @@ describe('Transfer post route from balance', () => {
     const request = { body: { from: 'savings', to: 'checking', amount: 100 } };
 
     let accounts;
-
     try {
       accounts = appModule.__get__('accounts');
     } catch (err) {
