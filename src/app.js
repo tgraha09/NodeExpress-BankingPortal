@@ -31,7 +31,7 @@ app.post('/transfer', (req, res)=>{
     let newBalance = accounts[to].balance + parseInt(amount)
     //let newBalance = accounts[to].balance //JSON.parse(accounts[to].balance)
    // console.log("Before");
-    console.log(currentBalance);
+    //console.log(currentBalance);
     //let newBalance = currentBalance + parseInt(amount)
    
    // newBalance += JSON.parse(amount) 
