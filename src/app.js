@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const { fromPairs } = require('ramda');
+const { accounts, users, writeJSON } = require('./data');
 const app = express()
+
 
 var port = 3000
 
@@ -11,12 +13,6 @@ var port = 3000
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
-
-const accountData = fs.readFileSync('src/json/accounts.json', {encoding: 'UTF8'})
-const accounts = JSON.parse(accountData)
-
-const userData = fs.readFileSync('src/json/users.json', {encoding: 'UTF8'})
-const users = JSON.parse(userData)
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({extended:true}));
@@ -29,19 +25,12 @@ app.post('/transfer', (req, res)=>{
     let {from, to, amount} = req.body
     let currentBalance = accounts[from].balance - parseInt(amount)
     let newBalance = accounts[to].balance + parseInt(amount)
-    //let newBalance = accounts[to].balance //JSON.parse(accounts[to].balance)
-   // console.log("Before");
-    //console.log(currentBalance);
-    //let newBalance = currentBalance + parseInt(amount)
-   
-   // newBalance += JSON.parse(amount) 
+
     accounts[from].balance = currentBalance
     accounts[to].balance = newBalance
-    //accounts[to].balance = currentBalance
-    var accountsJSON = JSON.stringify(accounts)
-    fs.writeFileSync(path.join(__dirname, 'json/accounts.json'), accountsJSON, "utf8")
-    //console.log(accounts["checking"].balance);
-    //console.log(accounts["savings"].balance);
+
+    writeJSON()
+
     res.render('transfer', {message: "Transfer Completed"})
 }); 
 
@@ -64,8 +53,7 @@ app.post('/payment', (req, res)=>{
    // console.log("After");
   //  console.log(credit);
    // console.log(available);
-    var accountsJSON = JSON.stringify(accounts)
-    fs.writeFileSync(path.join(__dirname, 'json/accounts.json'), accountsJSON, "utf8")
+    writeJSON()
     res.render('payment', { message: "Payment Successful", account: accounts.credit });
 });
 
