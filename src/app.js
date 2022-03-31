@@ -3,7 +3,11 @@ const path = require('path');
 const express = require('express');
 const { fromPairs } = require('ramda');
 const { accounts, users, writeJSON } = require('./data');
+const accountRoutes = require('./routes/accounts');
+const servicesRoutes = require('./routes/services');
+const { use } = require('chai');
 const app = express()
+
 
 
 var port = 3000
@@ -17,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({extended:true}));
 
-app.get('/transfer', (req, res)=>{
+/*app.get('/transfer', (req, res)=>{
     res.render('transfer');
 });
 
@@ -55,14 +59,16 @@ app.post('/payment', (req, res)=>{
    // console.log(available);
     writeJSON()
     res.render('payment', { message: "Payment Successful", account: accounts.credit });
-});
+});*/
 
 
 app.get('/profile', (req, res)=>{
     res.render('profile', {user: users[0]});
 });
 
-app.get('/credit', (req, res)=>{
+app.use('/account', accountRoutes)
+app.use('/services', servicesRoutes)
+/*app.get('/credit', (req, res)=>{
     res.render('account', {account: accounts.credit});
 });
 
@@ -72,7 +78,7 @@ app.get('/checking', (req, res)=>{
 
 app.get('/savings', (req, res)=>{
     res.render('account', {account: accounts.savings});
-});
+});*/
 
 
 app.get('/', (req, res)=>{
